@@ -1,0 +1,8 @@
+tsconfig.json
+tsconfig.paths.json
+package-lock.json
+yarn.lock
+
+# production
+/build
+/dist
