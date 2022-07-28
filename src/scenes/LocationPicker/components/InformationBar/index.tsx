@@ -1,27 +1,55 @@
-import { Box, List, Text } from '@mantine/core';
+import { Box, Tabs } from '@mantine/core';
+
+import { Coordinate } from '../../../../types/coordinate';
 
 import useMarkerStore from '../../../../stores/marker';
 
+import MarkersPanel from '../MarkersPanel';
+import NearByPanel from '../NearByPanel';
+
 import useStyles from './styles';
 
-const InformationBar = () => {
+interface InformationBarProps {
+  coordinate?: Coordinate;
+  tab: string;
+  onChangeTab: (tab: string) => void;
+  onDelete: (markerID: number) => void;
+  onFindLocationsNearByRadius: (formData: any) => void;
+}
+
+const InformationBar = ({
+  coordinate,
+  tab,
+  onChangeTab,
+  onDelete,
+  onFindLocationsNearByRadius,
+}: InformationBarProps) => {
   const { classes } = useStyles();
 
   const { markers } = useMarkerStore();
 
   return (
     <Box className={classes.container}>
-      {markers.length === 0 ? (
-        <Text>No marker</Text>
-      ) : (
-        <List listStyleType="none">
-          {markers.map((marker, index) => (
-            <List.Item key={marker.id}>
-              {index + 1}. {marker.title}
-            </List.Item>
-          ))}
-        </List>
-      )}
+      <Tabs
+        value={tab}
+        onTabChange={(value) => onChangeTab((value as any).toString())}
+      >
+        <Tabs.List>
+          <Tabs.Tab value="markers">Markers</Tabs.Tab>
+          <Tabs.Tab value="nearBy">Find markers in radius</Tabs.Tab>
+        </Tabs.List>
+
+        <Tabs.Panel value="markers" pt="xs">
+          <MarkersPanel markers={markers} onDelete={onDelete} />
+        </Tabs.Panel>
+
+        <Tabs.Panel value="nearBy" pt="xs">
+          <NearByPanel
+            coordinate={coordinate}
+            onSubmit={onFindLocationsNearByRadius}
+          />
+        </Tabs.Panel>
+      </Tabs>
     </Box>
   );
 };

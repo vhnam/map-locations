@@ -1,4 +1,3 @@
-import { ReactNode } from 'react';
 import create from 'zustand';
 
 import { Modal } from '../types/modal';
