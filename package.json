@@ -1,5 +1,5 @@
 {
-  "name": "dashboard",
+  "name": "map-locations",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -8,9 +8,6 @@
     "@mantine/core": "^5.0.0",
     "@mantine/hooks": "^5.0.0",
     "@turf/turf": "^6.5.0",
-    "@types/node": "^16.11.45",
-    "@types/react": "^18.0.15",
-    "@types/react-dom": "^18.0.6",
     "leaflet": "^1.8.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -47,6 +44,9 @@
     ]
   },
   "devDependencies": {
-    "@types/leaflet": "^1.7.11"
+    "@types/leaflet": "^1.7.11",
+    "@types/node": "^16.11.45",
+    "@types/react": "^18.0.15",
+    "@types/react-dom": "^18.0.6"
   }
 }

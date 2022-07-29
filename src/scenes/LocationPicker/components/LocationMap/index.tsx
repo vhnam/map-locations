@@ -1,6 +1,7 @@
 import { Box, Text } from '@mantine/core';
 import L from 'leaflet';
 import {
+  Circle,
   MapContainer,
   Marker as MarkerEle,
   Popup,
@@ -30,6 +31,7 @@ const greenIcon = new L.Icon({
 interface LocationMapProps {
   coordinate?: Coordinate;
   nearByMarkers: Marker[];
+  radius?: number;
   tab: string;
   onClick: (lat: number, lng: number) => void;
 }
@@ -37,6 +39,7 @@ interface LocationMapProps {
 const LocationMap = ({
   coordinate,
   nearByMarkers,
+  radius,
   tab,
   onClick,
 }: LocationMapProps) => {
@@ -70,7 +73,16 @@ const LocationMap = ({
         {'nearBy' === tab && (
           <>
             {coordinate && (
-              <MarkerEle position={[coordinate.lat, coordinate.lng]} />
+              <>
+                <MarkerEle position={[coordinate.lat, coordinate.lng]} />
+
+                {radius && (
+                  <Circle
+                    center={[coordinate.lat, coordinate.lng]}
+                    radius={radius}
+                  />
+                )}
+              </>
             )}
 
             {nearByMarkers.map((marker) => (
@@ -80,7 +92,7 @@ const LocationMap = ({
                 icon={greenIcon}
               >
                 <Popup>
-                  <Text weight={600}>{marker.title}</Text>
+                  <Text color="blue" size="md" weight={600}>{marker.title}</Text>
                   <Text>{marker.description}</Text>
                 </Popup>
               </MarkerEle>

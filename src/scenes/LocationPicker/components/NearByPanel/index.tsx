@@ -8,14 +8,16 @@ import nearBySchema from '../../../../validations/nearBy';
 
 interface NearByPanelProps {
   coordinate?: Coordinate;
+  onReset: () => void;
   onSubmit: (formData: any) => void;
 }
 
-const NearByPanel = ({ coordinate, onSubmit }: NearByPanelProps) => {
+const NearByPanel = ({ coordinate, onReset, onSubmit }: NearByPanelProps) => {
   const {
     control,
     handleSubmit,
     formState: { errors, isDirty, isValid, isSubmitting },
+    reset,
   } = useForm({
     mode: 'all',
     resolver: yupResolver(nearBySchema),
@@ -25,6 +27,11 @@ const NearByPanel = ({ coordinate, onSubmit }: NearByPanelProps) => {
   });
 
   const _onSubmit = handleSubmit(onSubmit);
+
+  const handleReset = () => {
+    onReset();
+    reset();
+  };
 
   return (
     <>
@@ -54,7 +61,12 @@ const NearByPanel = ({ coordinate, onSubmit }: NearByPanelProps) => {
               marginTop: '1rem',
             }}
           >
-            <Button variant="default" loading={isSubmitting} type="reset">
+            <Button
+              variant="default"
+              loading={isSubmitting}
+              type="reset"
+              onClick={handleReset}
+            >
               Reset
             </Button>
             <Button

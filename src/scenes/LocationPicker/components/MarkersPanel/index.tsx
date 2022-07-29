@@ -12,7 +12,7 @@ const MarkersPanel = ({ markers, onDelete }: MarkersPanelProps) => (
   <Table>
     <thead>
       <tr>
-        <th>Title</th>
+        <th>Locations</th>
         <th>&nbsp;</th>
       </tr>
     </thead>

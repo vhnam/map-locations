@@ -15,6 +15,7 @@ interface InformationBarProps {
   onChangeTab: (tab: string) => void;
   onDelete: (markerID: number) => void;
   onFindLocationsNearByRadius: (formData: any) => void;
+  onResetRadius: () => void;
 }
 
 const InformationBar = ({
@@ -23,6 +24,7 @@ const InformationBar = ({
   onChangeTab,
   onDelete,
   onFindLocationsNearByRadius,
+  onResetRadius,
 }: InformationBarProps) => {
   const { classes } = useStyles();
 
@@ -36,7 +38,7 @@ const InformationBar = ({
       >
         <Tabs.List>
           <Tabs.Tab value="markers">Markers</Tabs.Tab>
-          <Tabs.Tab value="nearBy">Find markers in radius</Tabs.Tab>
+          <Tabs.Tab value="nearBy">Find locations in radius</Tabs.Tab>
         </Tabs.List>
 
         <Tabs.Panel value="markers" pt="xs">
@@ -46,6 +48,7 @@ const InformationBar = ({
         <Tabs.Panel value="nearBy" pt="xs">
           <NearByPanel
             coordinate={coordinate}
+            onReset={onResetRadius}
             onSubmit={onFindLocationsNearByRadius}
           />
         </Tabs.Panel>

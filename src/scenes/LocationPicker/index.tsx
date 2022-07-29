@@ -1,6 +1,6 @@
 import { Box } from '@mantine/core';
-import { useState } from 'react';
 import * as turf from '@turf/turf';
+import { useState } from 'react';
 
 import useMarkerStore from '../../stores/marker';
 import useModalStore from '../../stores/modal';
@@ -17,6 +17,7 @@ const LocationPicker = () => {
 
   const [coordinate, setCoordinate] = useState<Coordinate>();
   const [nearByMarkers, setNearByMarkers] = useState<Marker[]>([]);
+  const [radius, setRadius] = useState<number>();
 
   const { markers, setMarker, clearMarker } = useMarkerStore();
   const { showModal } = useModalStore();
@@ -57,23 +58,22 @@ const LocationPicker = () => {
     if (coordinate) {
       const results: Marker[] = [];
 
-      const targetPoint = turf.point([coordinate.lat, coordinate.lng]);
+      const targetPoint = turf.point([coordinate.lng, coordinate.lat]);
       markers.forEach((marker) => {
         const currentPoint = turf.point([
-          marker.coordinate.lat,
           marker.coordinate.lng,
+          marker.coordinate.lat,
         ]);
         const distance = turf.distance(targetPoint, currentPoint, {
           units: 'meters',
         });
-
-        console.log(distance, formData.radius)
 
         if (distance <= formData.radius) {
           results.push(marker);
         }
       });
 
+      setRadius(formData.radius);
       setNearByMarkers(results);
     }
   };
@@ -81,6 +81,12 @@ const LocationPicker = () => {
   const handleChangeTab = (tabName: string) => {
     setCoordinate(undefined);
     setTab(tabName);
+    setNearByMarkers([]);
+  };
+
+  const handleResetRadius = () => {
+    setRadius(undefined);
+    setCoordinate(undefined);
     setNearByMarkers([]);
   };
 
@@ -92,10 +98,12 @@ const LocationPicker = () => {
         onChangeTab={handleChangeTab}
         onDelete={handleDeleteMarker}
         onFindLocationsNearByRadius={handleFindLocationsNearByRadius}
+        onResetRadius={handleResetRadius}
       />
       <LocationMap
         coordinate={coordinate}
         nearByMarkers={nearByMarkers}
+        radius={radius}
         tab={tab}
         onClick={handleClick}
       />
