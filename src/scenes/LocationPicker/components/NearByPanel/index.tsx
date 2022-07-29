@@ -30,7 +30,7 @@ const NearByPanel = ({ coordinate, onReset, onSubmit }: NearByPanelProps) => {
 
   const handleReset = () => {
     onReset();
-    reset();
+    reset({ radius: '' });
   };
 
   return (
